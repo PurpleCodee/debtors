@@ -1,0 +1,22 @@
+.parent-search-bar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-container {
+  width: 150%;
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.search-field {
+  width: 100%;
+}
+
+mat-icon {
+  color: #a82020;
+}

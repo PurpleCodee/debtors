@@ -1,0 +1,52 @@
+/* Contenedor principal del contenido del diálogo */
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 8px;
+}
+
+/* Campos de formulario que ocupan todo el ancho */
+.full {
+  width: 100%;
+}
+
+/* Fila para Teléfono + Móvil */
+.row {
+  display: flex;
+  gap: 16px;
+}
+
+/* Cada columna dentro de la fila */
+.half {
+  flex: 1;
+}
+
+/* Alineación del hint al final sin usar align="end" */
+mat-hint {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Acciones del modal (botones) */
+mat-dialog-actions {
+  margin-top: 16px;
+  padding: 8px 0;
+}
+
+/* Botón cancelar */
+button[mat-button] {
+  color: #666;
+}
+
+/* Botón añadir */
+button[mat-flat-button] {
+  font-weight: 600;
+}
+
+.margin-label{
+  margin-top: 4px;
+}
+
+
+

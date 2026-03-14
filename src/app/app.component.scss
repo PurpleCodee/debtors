@@ -1,0 +1,57 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    align-items: initial;
+    height: 100%;
+    margin-top: 80px;
+}
+
+.content{
+    width: 100%;
+    justify-content: start;
+    align-items: center;
+}
+
+.content-search-button{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center; 
+  gap: 16px; 
+  margin: 20px;
+  margin-bottom: 0;
+  padding: 20px;
+  margin-top: 0;
+}
+
+/* Clave: el componente search ocupa la mitad */
+.content-search-button app-search-bar{
+  flex: 0 0 50%;         /* 50% fijo del ancho del contenedor */
+  max-width: 50%;
+}
+
+/* El botón que crea, que no se estire */
+.content-search-button app-debtors-button-create{
+  flex: 0 0 auto;
+}
+
+.table{
+    margin: 10px;
+    padding: 10px;
+}
+
+
+.debtors-layout {
+  display: flex;
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.debtors-table-wrapper {
+  flex: 2;
+}
+
+.debtors-details-wrapper {
+  flex: 1.2;
+}

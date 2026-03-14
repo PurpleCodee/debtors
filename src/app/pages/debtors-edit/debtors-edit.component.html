@@ -1,0 +1,219 @@
+<!-- <h2 mat-dialog-title>Editar deudor</h2>
+
+<div mat-dialog-content>
+
+  <mat-form-field appearance="outline" class="full margin-label">
+    <mat-label>Empresa</mat-label>
+    <input matInput [(ngModel)]="data.empresa" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>País</mat-label>
+    <mat-select [(ngModel)]="data.pais">
+      <mat-option value="">Selecciona un país</mat-option>
+      <mat-option value="ES">España</mat-option>
+      <mat-option value="FR">Francia</mat-option>
+      <mat-option value="DE">Alemania</mat-option>
+      <mat-option value="IT">Italia</mat-option>
+      <mat-option value="PT">Portugal</mat-option>
+      <mat-option value="UK">Reino Unido</mat-option>
+      <mat-option value="US">Estados Unidos</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>CIF</mat-label>
+    <input matInput [(ngModel)]="data.cif" />
+  </mat-form-field>
+  
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>Persona de contacto</mat-label>
+    <input matInput [(ngModel)]="data.contacto" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>Email</mat-label>
+    <input matInput type="email" [(ngModel)]="data.email" />
+  </mat-form-field>
+
+  <div class="row">
+    <mat-form-field appearance="outline" class="half">
+      <mat-label>Teléfono</mat-label>
+      <input matInput [(ngModel)]="data.telefono" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="half">
+      <mat-label>Móvil</mat-label>
+      <input matInput [(ngModel)]="data.movil" />
+    </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>Moneda</mat-label>
+    <mat-select [(ngModel)]="data.moneda">
+      <mat-option value="">Selecciona moneda</mat-option>
+      <mat-option value="EUR">EUR</mat-option>
+      <mat-option value="USD">USD</mat-option>
+      <mat-option value="GBP">GBP</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>Observaciones</mat-label>
+    <textarea matInput maxlength="200" [(ngModel)]="data.observaciones"></textarea>
+    <mat-hint class="hint-end">Máximo 200 caracteres</mat-hint>
+  </mat-form-field>
+
+</div>
+
+<div mat-dialog-actions class="hint-end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-flat-button color="primary">Guardar cambios</button>
+</div> -->
+
+<h2 mat-dialog-title>Editar deudor</h2>
+
+<div mat-dialog-content [formGroup]="editForm">
+
+  <!-- Empresa -->
+  <mat-form-field appearance="outline" class="full margin-label">
+    <mat-label>Empresa</mat-label>
+    <input matInput formControlName="companyName" />
+
+    <mat-error *ngIf="editForm.get('companyName')?.hasError('required')">
+      La empresa es obligatoria
+    </mat-error>
+    <mat-error *ngIf="editForm.get('companyName')?.hasError('minlength')">
+      Debe tener al menos 2 caracteres
+    </mat-error>
+    <mat-error *ngIf="editForm.get('companyName')?.hasError('maxlength')">
+      No puede superar los 150 caracteres
+    </mat-error>
+  </mat-form-field>
+
+  <!-- País -->
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>País</mat-label>
+    <mat-select formControlName="country">
+      <mat-option value="">Selecciona un país</mat-option>
+      <mat-option value="ES">España</mat-option>
+      <mat-option value="FR">Francia</mat-option>
+      <mat-option value="DE">Alemania</mat-option>
+      <mat-option value="IT">Italia</mat-option>
+      <mat-option value="PT">Portugal</mat-option>
+      <mat-option value="UK">Reino Unido</mat-option>
+      <mat-option value="US">Estados Unidos</mat-option>
+    </mat-select>
+
+    <mat-error *ngIf="editForm.get('country')?.hasError('required')">
+      El país es obligatorio
+    </mat-error>
+  </mat-form-field>
+
+  <!-- CIF -->
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>CIF</mat-label>
+    <input matInput formControlName="cif" />
+
+    <mat-error *ngIf="editForm.get('cif')?.hasError('required')">
+      El CIF es obligatorio
+    </mat-error>
+    <mat-error *ngIf="editForm.get('cif')?.hasError('pattern')">
+      El CIF no tiene un formato válido
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Persona de contacto -->
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>Persona de contacto</mat-label>
+    <input matInput formControlName="contactPerson" />
+
+    <mat-error *ngIf="editForm.get('contactPerson')?.hasError('required')">
+      La persona de contacto es obligatoria
+    </mat-error>
+    <mat-error *ngIf="editForm.get('contactPerson')?.hasError('minlength')">
+      Debe tener al menos 2 caracteres
+    </mat-error>
+    <mat-error *ngIf="editForm.get('contactPerson')?.hasError('maxlength')">
+      No puede superar los 100 caracteres
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Email -->
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>Email</mat-label>
+    <input matInput type="email" formControlName="email" />
+
+    <mat-error *ngIf="editForm.get('email')?.hasError('required')">
+      El email es obligatorio
+    </mat-error>
+    <mat-error *ngIf="editForm.get('email')?.hasError('email')">
+      El email no es válido
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Teléfono + Móvil -->
+  <div class="row">
+
+    <mat-form-field appearance="outline" class="half">
+      <mat-label>Teléfono</mat-label>
+      <input matInput formControlName="phone" />
+
+      <mat-error *ngIf="editForm.get('phone')?.hasError('required')">
+        El teléfono es obligatorio
+      </mat-error>
+      <mat-error *ngIf="editForm.get('phone')?.hasError('pattern')">
+        Debe tener exactamente 9 dígitos
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="half">
+      <mat-label>Móvil</mat-label>
+      <input matInput formControlName="mobile" />
+
+      <mat-error *ngIf="editForm.get('mobile')?.hasError('pattern')">
+        Debe tener entre 9 y 15 dígitos (puede incluir +)
+      </mat-error>
+    </mat-form-field>
+
+  </div>
+
+  <!-- Moneda -->
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>Moneda</mat-label>
+    <mat-select formControlName="currency">
+      <mat-option value="">Selecciona moneda</mat-option>
+      <mat-option value="EUR">EUR</mat-option>
+      <mat-option value="USD">USD</mat-option>
+      <mat-option value="GBP">GBP</mat-option>
+    </mat-select>
+
+    <mat-error *ngIf="editForm.get('currency')?.hasError('required')">
+      La moneda es obligatoria
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Observaciones -->
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>Observaciones</mat-label>
+    <textarea matInput formControlName="observations" maxlength="500"></textarea>
+    <mat-hint class="hint-end">Máximo 500 caracteres</mat-hint>
+
+    <mat-error *ngIf="editForm.get('observations')?.hasError('maxlength')">
+      Máximo 500 caracteres permitidos
+    </mat-error>
+  </mat-form-field>
+
+</div>
+
+<div mat-dialog-actions class="hint-end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-flat-button color="primary" [disabled]="editForm.invalid" (click)="save()">
+    Guardar cambios
+  </button>
+</div>
+
+
+
+
+

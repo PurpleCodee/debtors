@@ -1,1 +1,11 @@
+  <div class="content">
+    <div class="title-debtors">
+      <app-debtors-title></app-debtors-title>
+    </div>
+    <div class="content-search-button">
+      <app-search-bar (search)="applySearch($event)"></app-search-bar>
+      <app-debtors-button-create></app-debtors-button-create>
+    </div>
+    <app-debtors-table class="table"></app-debtors-table>
+  </div>
 <router-outlet />
