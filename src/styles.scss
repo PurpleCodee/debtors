@@ -1,1 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --app-font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--app-font-family);
+}
+
+*,
+*::before,
+*::after {
+  font-family: inherit;
+}
+
+button,
+input,
+textarea,
+select,
+.mat-mdc-button-base,
+.mat-mdc-form-field,
+.mat-mdc-card,
+.mat-mdc-option,
+.mat-mdc-select-value-text,
+.mat-mdc-dialog-container {
+  font-family: var(--app-font-family) !important;
+}

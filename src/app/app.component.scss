@@ -1,57 +1,32 @@
-.container{
-    display: flex;
-    flex-direction: row;
-    justify-content: stretch;
-    align-items: initial;
-    height: 100%;
-    margin-top: 80px;
+.content {
+  width: 100%;
+  padding: 24px 40px 0;
+  box-sizing: border-box;
 }
 
-.content{
-    width: 100%;
-    justify-content: start;
-    align-items: center;
+.title-debtors {
+  margin-bottom: 20px;
 }
 
-.content-search-button{
+.content-search-button {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  align-items: center; 
-  gap: 16px; 
-  margin: 20px;
-  margin-bottom: 0;
-  padding: 20px;
-  margin-top: 0;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
 }
 
-/* Clave: el componente search ocupa la mitad */
-.content-search-button app-search-bar{
-  flex: 0 0 50%;         /* 50% fijo del ancho del contenedor */
-  max-width: 50%;
+.content-search-button app-search-bar {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
-/* El botón que crea, que no se estire */
-.content-search-button app-debtors-button-create{
+.content-search-button app-debtors-button-create {
   flex: 0 0 auto;
-}
-
-.table{
-    margin: 10px;
-    padding: 10px;
-}
-
-
-.debtors-layout {
   display: flex;
-  gap: 24px;
-  margin-top: 20px;
+  align-items: center;
 }
 
-.debtors-table-wrapper {
-  flex: 2;
-}
-
-.debtors-details-wrapper {
-  flex: 1.2;
+.table {
+  display: block;
 }

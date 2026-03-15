@@ -1,73 +1,63 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import {
+  CreateDebtorDto,
+  Debtor,
+  UpdateDebtorDto,
+} from '../models/debtor.interfaces';
 
-export interface Debtor {
-  id: number;
-  companyName: string;
-  cif: string;
-  debtLimit: number;
-  email: string;
-  registrationDate: string;
-  contactPerson: string;
-  phone: string;
-  mobile?: string;
-  currency: 'EUR' | 'USD' | 'GBP';
-  observations?: string;
-  country: 'ES' | 'UK' | 'US';
-  ownerUserId: string;
-  createdByUserId: string;
-  updatedByUserId?: string;
-  createdAt: string;
-  updatedAt: string;
-}
+export type DebtorOrderParam =
+  | 'companyName'
+  | 'cif'
+  | 'email'
+  | 'registrationDate';
+
+export type DebtorOrderType = 'ASC' | 'DESC';
 
 export interface PaginatedDebtors {
   data: Debtor[];
   total: number;
   page: number;
   lastPage: number;
+  orderParam?: DebtorOrderParam;
+  orderType?: DebtorOrderType;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class DebtorService {
-  private apiUrl = 'http://localhost:3000/debtors'; // API Gateway
+  private apiUrl = 'http://localhost:3000/debtors';
 
   constructor(private http: HttpClient) {}
 
-  // ---------------------------------------------------
-  // Obtener lista paginada
-  // ---------------------------------------------------
-  getDebtors(page = 1, limit = 10, search = ''): Observable<PaginatedDebtors> {
-    let params = new HttpParams()
+  getDebtors(
+    page = 1,
+    limit = 10,
+    search = '',
+    orderParam: DebtorOrderParam = 'companyName',
+    orderType: DebtorOrderType = 'DESC',
+  ): Observable<PaginatedDebtors> {
+    const params = new HttpParams()
       .set('page', page)
       .set('limit', limit)
-      .set('search', search);
+      .set('search', search)
+      .set('order_param', orderParam)
+      .set('order_type', orderType);
 
     return this.http.get<PaginatedDebtors>(`${this.apiUrl}/search`, { params });
   }
 
-  // ---------------------------------------------------
-  // Obtener un deudor por ID
-  // ---------------------------------------------------
   getDebtor(id: number): Observable<Debtor> {
     return this.http.get<Debtor>(`${this.apiUrl}/${id}`);
   }
 
-  // ---------------------------------------------------
-  // Crear deudor
-  // ---------------------------------------------------
-  createDebtor(data: any): Observable<Debtor> {
+  createDebtor(data: CreateDebtorDto): Observable<Debtor> {
     return this.http.post<Debtor>(this.apiUrl, data);
   }
 
-  // ---------------------------------------------------
-  // Actualizar deudor
-  // ---------------------------------------------------
-  updateDebtor(id: number, data: any): Observable<Debtor> {
+  updateDebtor(id: number, data: UpdateDebtorDto): Observable<Debtor> {
     return this.http.patch<Debtor>(`${this.apiUrl}/${id}`, data);
   }
 }
-

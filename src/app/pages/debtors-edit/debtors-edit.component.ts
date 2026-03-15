@@ -1,146 +1,84 @@
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-debtors-edit',
-//   standalone: true,
-//   imports: [],
-//   templateUrl: './debtors-edit.component.html',
-//   styleUrl: './debtors-edit.component.scss'
-// })
-// export class DebtorsEditComponent {
-
-// }
-
-// import { Component, Inject } from '@angular/core';
-// import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-
-
-// import { MatFormFieldModule } from '@angular/material/form-field';
-// import { MatInputModule } from '@angular/material/input';
-// import { MatSelectModule } from '@angular/material/select';
-// import { MatOptionModule } from '@angular/material/core';
-// import { MatButtonModule } from '@angular/material/button';
-
-
-// import { FormsModule } from '@angular/forms';
-
-// @Component({
-//   selector: 'app-debtors-edit',
-//   standalone: true,
-//   imports: [
-//     MatFormFieldModule,
-//     MatInputModule,
-//     MatSelectModule,
-//     MatOptionModule,
-//     MatButtonModule,
-//     FormsModule,
-//     MatDialogModule
-//   ],
-//   templateUrl: './debtors-edit.component.html',
-//   styleUrl: './debtors-edit.component.scss'
-// })
-// export class DebtorsEditComponent {
-
-//   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
-
-// }
-
+import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-
-// Angular Material
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatOptionModule } from '@angular/material/core';
-import { MatButtonModule } from '@angular/material/button';
-
-// Para formularios reactivos
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { Debtor, UpdateDebtorDto } from '../../models/debtor.interfaces';
+import { DebtorService } from '../../services/debtors.service';
 
 @Component({
   selector: 'app-debtors-edit',
   standalone: true,
   imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatOptionModule,
     MatButtonModule,
-    MatDialogModule,
-    CommonModule,
-
-    // Sustituimos FormsModule por ReactiveFormsModule
-    ReactiveFormsModule
   ],
   templateUrl: './debtors-edit.component.html',
   styleUrl: './debtors-edit.component.scss'
 })
 export class DebtorsEditComponent {
-
-  editForm!: FormGroup;
+  editForm: FormGroup;
+  isSubmitting = false;
+  submitError: string | null = null;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: Debtor,
     private dialogRef: MatDialogRef<DebtorsEditComponent>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private debtorService: DebtorService,
   ) {
-
-    // Creamos el formulario reactivo cargando los datos recibidos
     this.editForm = this.fb.group({
-      companyName: [data.empresa, [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(150)
-      ]],
-
-      country: [data.pais, [
-        Validators.required
-      ]],
-
-      cif: [data.cif, [
-        Validators.required,
-        Validators.pattern(/^[A-HJ-NP-SUVW]\d{7}[0-9A-J]$/)
-      ]],
-
-      contactPerson: [data.contacto, [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(100)
-      ]],
-
-      email: [data.email, [
-        Validators.required,
-        Validators.email
-      ]],
-
-      phone: [data.telefono, [
-        Validators.required,
-        Validators.pattern(/^[0-9]{9}$/)
-      ]],
-
-      mobile: [data.movil, [
-        Validators.pattern(/^\+?[0-9]{9,15}$/)
-      ]],
-
-      currency: [data.moneda, [
-        Validators.required
-      ]],
-
-      observations: [data.observaciones, [
-        Validators.maxLength(500)
-      ]]
+      companyName: [data.companyName ?? '', [Validators.required, Validators.minLength(2), Validators.maxLength(150)]],
+      country: [data.country ?? '', [Validators.required]],
+      cif: [data.cif ?? '', [Validators.required, Validators.pattern(/^[A-HJ-NP-SUVW]\d{7}[0-9A-J]$/)]],
+      debtLimit: [data.debtLimit ?? null, [Validators.required, Validators.min(0.01)]],
+      contactPerson: [data.contactPerson ?? '', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
+      email: [data.email ?? '', [Validators.required, Validators.email, Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)]],
+      phone: [data.phone ?? '', [Validators.required, Validators.pattern(/^[0-9]{9}$/)]],
+      mobile: [data.mobile ?? '', [Validators.pattern(/^\+?[0-9]{9,15}$/)]],
+      observations: [data.observations ?? '', [Validators.maxLength(500)]],
     });
   }
 
   save() {
-    if (this.editForm.invalid) {
+    if (this.editForm.invalid || this.isSubmitting) {
       this.editForm.markAllAsTouched();
       return;
     }
 
-    // Devolvemos los datos editados al componente padre
-    this.dialogRef.close(this.editForm.value);
+    this.isSubmitting = true;
+    this.submitError = null;
+
+    const payload: UpdateDebtorDto = {
+      ...this.editForm.getRawValue(),
+      debtLimit: Number(this.editForm.getRawValue().debtLimit),
+      mobile: this.normalizeOptionalText(this.editForm.getRawValue().mobile),
+      observations: this.normalizeOptionalText(this.editForm.getRawValue().observations),
+    };
+
+    this.debtorService.updateDebtor(this.data.id, payload).subscribe({
+      next: (updatedDebtor) => {
+        Object.assign(this.data, updatedDebtor);
+        this.isSubmitting = false;
+        this.dialogRef.close(updatedDebtor);
+      },
+      error: () => {
+        this.isSubmitting = false;
+        this.submitError = 'No se pudo actualizar el deudor. Revisa los datos e intenta de nuevo.';
+      },
+    });
+  }
+
+  private normalizeOptionalText(value: string | null | undefined) {
+    const trimmed = value?.trim();
+    return trimmed ? trimmed : null;
   }
 }

@@ -10,7 +10,7 @@ export interface Debtor {
   mobile?: string | null;
   currency: 'EUR' | 'USD' | 'GBP';
   observations?: string | null;
-  country: 'ES' | 'UK' | 'US';
+  country: 'ES' | 'FR' | 'DE' | 'IT' | 'PT' | 'UK' | 'US';
 
   ownerUserId: string;
   createdByUserId: string;
@@ -30,12 +30,8 @@ export interface CreateDebtorDto {
   contactPerson: string;
   phone: string;
   mobile?: string | null;
-  currency: 'EUR' | 'USD' | 'GBP';
   observations?: string | null;
-  country: 'ES' | 'UK' | 'US';
-
-  ownerUserId: string;
-  createdByUserId: string;
+  country: 'ES' | 'FR' | 'DE' | 'IT' | 'PT' | 'UK' | 'US';
 }
 
 export interface UpdateDebtorDto {
@@ -47,10 +43,6 @@ export interface UpdateDebtorDto {
   contactPerson?: string;
   phone?: string;
   mobile?: string | null;
-  currency?: 'EUR' | 'USD' | 'GBP';
   observations?: string | null;
-  country?: 'ES' | 'UK' | 'US';
-
-  updatedByUserId: string;
+  country?: 'ES' | 'FR' | 'DE' | 'IT' | 'PT' | 'UK' | 'US';
 }
-

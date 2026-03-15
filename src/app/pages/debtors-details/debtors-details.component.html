@@ -1,47 +1,8 @@
 <div class="modal-overlay"></div>
 <div class="modal-window">
-  <button mat-icon-button mat-dialog-close class="close-btn">
-    <mat-icon>close</mat-icon>
-  </button>
-
-  <div class="debtor-card">
-    <h2 class="debtor-title">Logística Delta Norte SL</h2>
-
-    <div class="debtor-info">
-      <div class="info-block">
-        <p><strong>Moneda:</strong> EUR</p>
-        <p><strong>Límite Deuda:</strong> 4.200.000€</p>
-        <p><strong>CIF:</strong> B45891234</p>
-        <p><strong>País:</strong> España</p>
-      </div>
-
-      <div class="contact-block">
-        <h3>Persona de contacto</h3>
-        <p><strong>Nombre:</strong> Marina Gómez Perez</p>
-        <p><strong>Teléfono:</strong> 948376674</p>
-        <p><strong>Móvil:</strong> +34 647589398</p>
-      </div>
-
-      <div class="details-block">
-        <h3>Detalles</h3>
-        <p><strong>Observaciones:</strong></p>
-        <p class="observaciones">
-          Cliente recurrente. Buen histórico. Revisión en nuevas altas.
-          Operativa estable. Sin incidencias relevantes.
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!----------------HTML CON DATA BINDING----------------------->
-
-<!-- <div class="modal-overlay"></div>
-<div class="modal-window">
   <button mat-icon-button (click)="close()" class="close-btn">
     <mat-icon>close</mat-icon>
   </button>
-
 
   <div class="debtor-card">
     <h2 class="debtor-title">{{ debtor.companyName }}</h2>
@@ -49,7 +10,7 @@
     <div class="debtor-info">
       <div class="info-block">
         <p><strong>Moneda:</strong> {{ debtor.currency }}</p>
-        <p><strong>Límite Deuda:</strong> {{ debtor.debtLimit | number }}€</p>
+        <p><strong>Límite Deuda:</strong> {{ debtor.debtLimit | number }} {{ getCurrencySymbol(debtor.currency) }}</p>
         <p><strong>CIF:</strong> {{ debtor.cif }}</p>
         <p><strong>País:</strong> {{ debtor.country }}</p>
       </div>
@@ -58,17 +19,16 @@
         <h3>Persona de contacto</h3>
         <p><strong>Nombre:</strong> {{ debtor.contactPerson }}</p>
         <p><strong>Teléfono:</strong> {{ debtor.phone }}</p>
-        <p><strong>Móvil:</strong> {{ debtor.mobile }}</p>
+        <p><strong>Móvil:</strong> {{ debtor.mobile || '-' }}</p>
       </div>
 
       <div class="details-block">
         <h3>Detalles</h3>
         <p><strong>Observaciones:</strong></p>
         <p class="observaciones">
-          {{ debtor.observations }}
+          {{ debtor.observations || 'Sin observaciones' }}
         </p>
       </div>
     </div>
   </div>
-</div> -->
-
+</div>

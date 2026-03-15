@@ -4,8 +4,8 @@
     </div>
     <div class="content-search-button">
       <app-search-bar (search)="applySearch($event)"></app-search-bar>
-      <app-debtors-button-create></app-debtors-button-create>
+      <app-debtors-button-create (debtorCreated)="handleDebtorCreated()"></app-debtors-button-create>
     </div>
-    <app-debtors-table class="table"></app-debtors-table>
+    <app-debtors-table class="table" [search]="searchText"></app-debtors-table>
   </div>
 <router-outlet />
